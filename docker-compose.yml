@@ -2,6 +2,6 @@ version: '3'
 services:
   rest:
     build: .
-    image: greeting-microservice
+    image: bookmetadata-microservice
     ports:
     - "80:80"
