@@ -51,6 +51,7 @@ repositories {
 dependencies {
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     // Testing
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.3.2'
@@ -72,7 +73,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.5'
 
     // khttp (HTTP client)
-    //compile 'com.github.jkcclemens:khttp:-SNAPSHOT'
+    compile 'com.github.jkcclemens:khttp:-SNAPSHOT'
 
     // Template Engine
     //compile 'com.sparkjava:spark-template-mustache:2.7.1'

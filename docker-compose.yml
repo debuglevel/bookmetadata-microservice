@@ -5,3 +5,5 @@ services:
     image: bookmetadata-microservice
     ports:
     - "80:80"
+    environment:
+      - DNB_ACCESSTOKEN=XYZ
