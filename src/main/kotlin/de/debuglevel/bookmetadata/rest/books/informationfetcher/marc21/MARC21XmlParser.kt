@@ -51,8 +51,10 @@ class MARC21XmlParser(xmlData: String) {
 
         // sometimes, "b" is missing, but "p" is present
         subtitle = getValue("245", "b") ?: getValue("245", "p")
-        tocUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"m\"][.=\"B:DE-101\"]/../subfield[@code=\"u\"]/text()")
-        abstractUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"m\"][.=\"X:MVB\"]/../subfield[@code=\"u\"]/text()")
+
+        // both specific to DNB; should be moved to DnbInformationFetcher
+        tocUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltsverzeichnis\"]/../subfield[@code=\"u\"]/text()")
+        abstractUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltstext\"]/../subfield[@code=\"u\"]/text()")
     }
 
     fun getValue(datafieldTag: String, subfieldCode: String): String? {
