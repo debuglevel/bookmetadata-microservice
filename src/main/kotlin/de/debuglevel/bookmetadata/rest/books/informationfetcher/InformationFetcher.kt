@@ -8,7 +8,7 @@ abstract class InformationFetcher {
 
         val reformattedIsbn = IsbnUtils.reformat(isbn)
         val book = toBook(fetchData(reformattedIsbn))
-        book.isbn = if (book.isbn.isNullOrBlank()) reformattedIsbn else book.isbn
+        book.requestedIsbn = reformattedIsbn
 
         return book
     }

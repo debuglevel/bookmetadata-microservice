@@ -1,6 +1,7 @@
 package de.debuglevel.bookmetadata.rest.books
 
 data class BookDTO(var isbn: String?) {
+    var requestedIsbn: String? = null
     var title: String? = null
     var subtitle: String? = null
     var combinedTitle: String? = null
