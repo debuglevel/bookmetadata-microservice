@@ -79,7 +79,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // khttp (HTTP client)
-    compile 'com.github.jkcclemens:khttp:-SNAPSHOT'
+    implementation 'khttp:khttp:0.1.0'
 
     // Template Engine
     //implementation 'com.sparkjava:spark-template-mustache:2.7.1'
