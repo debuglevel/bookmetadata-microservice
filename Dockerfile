@@ -14,11 +14,11 @@ RUN ./gradlew build
 
 ## Final image
 FROM openjdk:8-jre-alpine
-RUN mkdir /app
-COPY --from=builder /src/build/libs/*-all.jar /app/bookmetadata-microservice.jar
+WORKDIR /app
+COPY --from=builder /src/build/libs/*.jar /app/microservice.jar
 
 # set the default port to 80
 ENV PORT 80
 EXPOSE 80
 
-CMD ["java", "-jar", "/app/bookmetadata-microservice.jar"]
+CMD ["java", "-jar", "/app/microservice.jar"]
