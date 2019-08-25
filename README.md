@@ -1,3 +1,5 @@
+**This README is out of date for the current commit, as this microservice is migrating to Micronaut! Switch to a tagged commit (i.e. 0.0.2) to get a stable and well documented version**
+
 # Book Metadata Microservice
 
 This is a REST microservice for retrieving book metadata from various sources.
