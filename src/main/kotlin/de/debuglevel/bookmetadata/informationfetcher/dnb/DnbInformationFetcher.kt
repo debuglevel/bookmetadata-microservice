@@ -1,39 +1,39 @@
-package de.debuglevel.bookmetadata.rest.books.informationfetcher.dnb
+package de.debuglevel.bookmetadata.informationfetcher.dnb
 
-import de.debuglevel.bookmetadata.rest.Configuration
-import de.debuglevel.bookmetadata.rest.books.BookDTO
-import de.debuglevel.bookmetadata.rest.books.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.rest.books.informationfetcher.InformationFetcher
-import de.debuglevel.bookmetadata.rest.books.informationfetcher.marc21.MARC21XmlParser
+import de.debuglevel.bookmetadata.BookResponseDTO
+import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
+import de.debuglevel.bookmetadata.informationfetcher.InformationFetcher
+import de.debuglevel.bookmetadata.informationfetcher.marc21.MARC21XmlParser
 import mu.KotlinLogging
 import java.net.URL
 
-
-class DnbInformationFetcher : InformationFetcher() {
+class DnbInformationFetcher(private val accessToken: String) : InformationFetcher() {
     private val logger = KotlinLogging.logger {}
 
-    override fun fetchData(isbn: String): String {
-        logger.debug("Fetching XML from DNB SRU for '$isbn'...")
+    override val name = "Deutsche Nationalbibliothek"
 
-        val accessToken = Configuration.dnbAccesstoken
+    override fun fetchData(isbn: String): String {
+        logger.debug { "Fetching XML from DNB SRU for '$isbn'..." }
+
         val url = "http://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=isbn%3D$isbn&recordSchema=MARC21-xml&accessToken=$accessToken"
         val xmlData = URL(url).readText()
 
         if (xmlData.contains("info:srw/diagnostic/1/3")) {
-            logger.error { "The DNB accesstoken '$accessToken' is invalid:\n$xmlData" }
+            logger.error { "The DNB access token '$accessToken' is invalid:\n$xmlData" }
             throw InvalidAccessTokenException()
         }
 
+        logger.debug { "Fetched XML from DNB SRU for '$isbn'." }
         return xmlData
     }
 
-    override fun toBook(data: String): BookDTO {
-        logger.debug("Converting XML from DNB SRU to BookDTO object...")
-        logger.trace(data)
+    override fun toBook(data: String): BookResponseDTO {
+        logger.debug { "Extracting information from DNB SRU XML..." }
+        logger.trace { data }
 
         val marc21XmlParser = MARC21XmlParser(data)
 
-        val book = BookDTO(null)
+        val book = BookResponseDTO(null)
 
         val countBooks = marc21XmlParser.bookCount
         if (countBooks == 0) {
@@ -60,20 +60,24 @@ class DnbInformationFetcher : InformationFetcher() {
         val abstractUrl = book.abstractUrl
         book.abstract = if (abstractUrl != null) getAbstract(abstractUrl) else null
 
+        logger.debug { "Extracted information from DNB SRU XML." }
+        logger.trace { "Extracted information from DNB SRU XML: $book" }
         return book
     }
 
     private fun getAbstract(abstractUrl: String): String? {
-        logger.debug { "Getting abstract..." }
-        val response = khttp.get(abstractUrl)
+        logger.debug { "Getting abstract from '$abstractUrl'..." }
+        val response = URL(abstractUrl).readText()
 
-        val responseText = response.text.strip()
+        val responseText = response.strip()
 
         val regex = """.*<BODY>(.*)</BODY>.*""".toRegex()
         val matchResult = regex.find(responseText)
 
         val abstractText = matchResult?.groups?.get(1)?.value
 
+        logger.debug { "Got abstract from '$abstractUrl'." }
+        logger.debug { "Got abstract from '$abstractUrl': $abstractText" }
         return abstractText
     }
 

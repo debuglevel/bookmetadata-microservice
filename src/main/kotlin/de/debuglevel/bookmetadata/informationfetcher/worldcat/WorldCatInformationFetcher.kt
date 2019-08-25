@@ -1,28 +1,33 @@
-package de.debuglevel.bookmetadata.rest.books.informationfetcher.worldcat
+package de.debuglevel.bookmetadata.informationfetcher.worldcat
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import de.debuglevel.bookmetadata.rest.books.BookDTO
-import de.debuglevel.bookmetadata.rest.books.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.rest.books.informationfetcher.InformationFetcher
+import de.debuglevel.bookmetadata.BookResponseDTO
+import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
+import de.debuglevel.bookmetadata.informationfetcher.InformationFetcher
 import mu.KotlinLogging
 import java.net.URL
 
 class WorldCatInformationFetcher : InformationFetcher() {
     private val logger = KotlinLogging.logger {}
 
-    override fun fetchData(isbn: String): String {
-        logger.debug("Fetching JSON from WorldCat xISBN for $isbn...")
+    override val name = "WorldCat xISBN"
 
-        return URL("http://xisbn.worldcat.org/webservices/xid/isbn/$isbn?method=getMetadata&format=json&fl=*")
-                .readText()
+    override fun fetchData(isbn: String): String {
+        logger.debug("Fetching JSON from WorldCat xISBN for '$isbn'...")
+
+        val json = URL("http://xisbn.worldcat.org/webservices/xid/isbn/$isbn?method=getMetadata&format=json&fl=*")
+            .readText()
+
+        logger.debug { "Fetched JSON from WorldCat xISBN for '$isbn'." }
+        logger.trace { "Fetched JSON from WorldCat xISBN for '$isbn': $json" }
+        return json
     }
 
-    override fun toBook(data: String): BookDTO {
-        logger.debug("Converting JSON from WorldCat xISBN to BookDTO object...")
-        logger.debug(data)
+    override fun toBook(data: String): BookResponseDTO {
+        logger.debug("Extracting information from WorldCat xISBN JSON...")
 
-        val book = BookDTO(null)
+        val book = BookResponseDTO(null)
 
         val jsonObject = Gson().fromJson(data, JsonObject::class.java)
 
@@ -52,6 +57,7 @@ class WorldCatInformationFetcher : InformationFetcher() {
         book.edition = jsonObject?.getAsJsonArray("list")?.get(0)
                 ?.asJsonObject?.getAsJsonPrimitive("ed")?.asString
 
+        logger.debug("Extracted information from WorldCat xISBN JSON: $book")
         return book
     }
 }

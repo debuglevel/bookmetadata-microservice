@@ -1,29 +1,35 @@
-package de.debuglevel.bookmetadata.rest.books.informationfetcher.openlibrary
+package de.debuglevel.bookmetadata.informationfetcher.openlibrary
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import de.debuglevel.bookmetadata.rest.books.BookDTO
-import de.debuglevel.bookmetadata.rest.books.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.rest.books.informationfetcher.InformationFetcher
+import de.debuglevel.bookmetadata.BookResponseDTO
+import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
+import de.debuglevel.bookmetadata.informationfetcher.InformationFetcher
 import mu.KotlinLogging
 import java.net.URL
 
 class OpenLibraryInformationFetcher : InformationFetcher() {
     private val logger = KotlinLogging.logger {}
 
-    override fun fetchData(isbn: String): String {
-        logger.debug("Fetching JSON from OpenLibrary Books API for $isbn...")
+    override val name = "OpenLibrary"
 
-        return URL("https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&jscmd=data&format=json")
-                .readText()
+    override fun fetchData(isbn: String): String {
+        logger.debug("Fetching JSON from OpenLibrary Books API for '$isbn'...")
+
+        val json = URL("https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&jscmd=data&format=json")
+            .readText()
+
+        logger.debug { "Fetched JSON from OpenLibrary Books API for '$isbn'." }
+        logger.trace { "Fetched JSON from OpenLibrary Books API for '$isbn': $json" }
+        return json
     }
 
-    override fun toBook(data: String): BookDTO {
-        logger.debug("Converting JSON from OpenLibrary Books API to BookDTO object...")
-        logger.debug(data)
+    override fun toBook(data: String): BookResponseDTO {
+        logger.debug("Extracting information from OpenLibrary Books API JSON...")
 
-        val book = BookDTO(null)
+        val book = BookResponseDTO(null)
 
+        // TODO: maybe use Jackson instead of GSON because it's already included in dependencies
         val jsonObject = Gson().fromJson(data, JsonObject::class.java)
 
         val mainElement = if (jsonObject?.keySet()?.firstOrNull() != null) jsonObject.getAsJsonObject(jsonObject.keySet()?.first()) else null
@@ -51,7 +57,7 @@ class OpenLibraryInformationFetcher : InformationFetcher() {
         book.publisher = mainElement.getAsJsonArray("publishers")
                 ?.joinToString(separator = ", ", transform = { it.asJsonObject.getAsJsonPrimitive("name").asString })
 
+        logger.debug("Extracted information from OpenLibrary Books API JSON: $book")
         return book
     }
-
 }

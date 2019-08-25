@@ -1,6 +1,6 @@
-package de.debuglevel.bookmetadata.rest.books
+package de.debuglevel.bookmetadata
 
-data class BookDTO(var isbn: String?) {
+data class BookResponseDTO(var isbn: String?) {
     var requestedIsbn: String? = null
     var title: String? = null
     var subtitle: String? = null
@@ -19,4 +19,5 @@ data class BookDTO(var isbn: String?) {
     var tableOfContentsUrl: String? = null
     var abstractUrl: String? = null
     var abstract: String? = null
+    var error: String? = null
 }

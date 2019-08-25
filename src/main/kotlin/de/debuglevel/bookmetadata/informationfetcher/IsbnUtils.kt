@@ -1,4 +1,4 @@
-package de.debuglevel.bookmetadata.rest.books.informationfetcher
+package de.debuglevel.bookmetadata.informationfetcher
 
 object IsbnUtils {
     fun reformat(isbn: String): String {
