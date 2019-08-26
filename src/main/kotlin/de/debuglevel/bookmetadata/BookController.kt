@@ -1,7 +1,8 @@
 package de.debuglevel.bookmetadata
 
-import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.informationfetcher.FallbackInformationFetcher
+import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
+import de.debuglevel.bookmetadata.metadataprovider.FallbackMetadataProvider
+import de.debuglevel.bookmetadata.metadataprovider.ISBN
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Controller
@@ -10,8 +11,8 @@ import mu.KotlinLogging
 import java.io.FileNotFoundException
 import java.net.ConnectException
 
-@Controller("/metadata")
-class MetadataController(private val fallbackInformationFetcher: FallbackInformationFetcher) {
+@Controller("/books")
+class BookController(private val fallbackInformationFetcher: FallbackMetadataProvider) {
     private val logger = KotlinLogging.logger {}
 
     @Get("/{isbn}")
@@ -19,7 +20,7 @@ class MetadataController(private val fallbackInformationFetcher: FallbackInforma
         logger.debug("Called getOne($isbn)")
 
         return try {
-            val book = fallbackInformationFetcher.getBook(isbn)
+            val book = fallbackInformationFetcher.getBook(ISBN(isbn))
             HttpResponse.ok(book)
         } catch (e: BookNotFoundException) {
             val bookResponseDTO = BookResponseDTO(isbn)

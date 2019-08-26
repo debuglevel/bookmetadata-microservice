@@ -1,28 +1,20 @@
-package de.debuglevel.bookmetadata.informationfetcher.worldcat
+package de.debuglevel.bookmetadata.metadataprovider.worldcat
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import de.debuglevel.bookmetadata.BookResponseDTO
-import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.informationfetcher.InformationFetcher
+import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
+import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
 import mu.KotlinLogging
-import java.net.URL
+import javax.inject.Singleton
 
-class WorldCatInformationFetcher : InformationFetcher() {
+@Singleton
+class WorldCatMetadataProvider(
+    override val dataService: WorldCatDataService
+) : MetadataProvider() {
     private val logger = KotlinLogging.logger {}
 
     override val name = "WorldCat xISBN"
-
-    override fun fetchData(isbn: String): String {
-        logger.debug("Fetching JSON from WorldCat xISBN for '$isbn'...")
-
-        val json = URL("http://xisbn.worldcat.org/webservices/xid/isbn/$isbn?method=getMetadata&format=json&fl=*")
-            .readText()
-
-        logger.debug { "Fetched JSON from WorldCat xISBN for '$isbn'." }
-        logger.trace { "Fetched JSON from WorldCat xISBN for '$isbn': $json" }
-        return json
-    }
 
     override fun toBook(data: String): BookResponseDTO {
         logger.debug("Extracting information from WorldCat xISBN JSON...")

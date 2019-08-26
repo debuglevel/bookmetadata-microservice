@@ -1,28 +1,20 @@
-package de.debuglevel.bookmetadata.informationfetcher.openlibrary
+package de.debuglevel.bookmetadata.metadataprovider.openlibrary
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import de.debuglevel.bookmetadata.BookResponseDTO
-import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.informationfetcher.InformationFetcher
+import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
+import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
 import mu.KotlinLogging
-import java.net.URL
+import javax.inject.Singleton
 
-class OpenLibraryInformationFetcher : InformationFetcher() {
+@Singleton
+class OpenLibraryMetadataProvider(
+    override val dataService: OpenLibraryDataService
+) : MetadataProvider() {
     private val logger = KotlinLogging.logger {}
 
     override val name = "OpenLibrary"
-
-    override fun fetchData(isbn: String): String {
-        logger.debug("Fetching JSON from OpenLibrary Books API for '$isbn'...")
-
-        val json = URL("https://openlibrary.org/api/books?bibkeys=ISBN:$isbn&jscmd=data&format=json")
-            .readText()
-
-        logger.debug { "Fetched JSON from OpenLibrary Books API for '$isbn'." }
-        logger.trace { "Fetched JSON from OpenLibrary Books API for '$isbn': $json" }
-        return json
-    }
 
     override fun toBook(data: String): BookResponseDTO {
         logger.debug("Extracting information from OpenLibrary Books API JSON...")

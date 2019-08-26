@@ -1,38 +1,39 @@
-package de.debuglevel.bookmetadata.informationfetcher
+package de.debuglevel.bookmetadata.metadataprovider
 
 import de.debuglevel.bookmetadata.BookResponseDTO
-import de.debuglevel.bookmetadata.informationfetcher.dnb.DnbInformationFetcher
-import de.debuglevel.bookmetadata.informationfetcher.googlebooks.GoogleBooksInformationFetcher
-import de.debuglevel.bookmetadata.informationfetcher.openlibrary.OpenLibraryInformationFetcher
-import de.debuglevel.bookmetadata.informationfetcher.worldcat.WorldCatInformationFetcher
-import io.micronaut.context.annotation.Property
+import de.debuglevel.bookmetadata.metadataprovider.dnb.DnbMetadataProvider
+import de.debuglevel.bookmetadata.metadataprovider.googlebooks.GoogleBooksMetadataProvider
+import de.debuglevel.bookmetadata.metadataprovider.openlibrary.OpenLibraryMetadataProvider
+import de.debuglevel.bookmetadata.metadataprovider.worldcat.WorldCatMetadataProvider
 import mu.KotlinLogging
 import javax.inject.Singleton
 
 @Singleton
-class FallbackInformationFetcher(
-    @Property(name = "app.dnb.accesstoken") private val dnbAccessToken: String = ""
-) : InformationFetcher() {
+class FallbackMetadataProvider(
+    private val dnbInformationFetcher: DnbMetadataProvider,
+    private val googleBooksInformationFetcher: GoogleBooksMetadataProvider,
+    private val worldCatInformationFetcher: WorldCatMetadataProvider,
+    private val openLibraryInformationFetcher: OpenLibraryMetadataProvider
+) : MetadataProvider() {
     private val logger = KotlinLogging.logger {}
 
     override val name = "Fallback Information Fetcher"
 
-    override fun fetchData(isbn: String): String {
-        throw NotImplementedError("not implemented on purpose")
-    }
+    override val dataService: DataService
+        get() = TODO("not implemented on purpose")
 
     override fun toBook(data: String): BookResponseDTO {
         throw NotImplementedError("not implemented on purpose")
     }
 
-    override fun getBook(isbn: String): BookResponseDTO {
+    override fun getBook(isbn: ISBN): BookResponseDTO {
         logger.debug("Getting book with ISBN '$isbn' from '${this.name}'...")
 
         val informationFetchers = listOf(
-            DnbInformationFetcher(dnbAccessToken),
-                GoogleBooksInformationFetcher(),
-                WorldCatInformationFetcher(),
-                OpenLibraryInformationFetcher()
+            dnbInformationFetcher,
+            googleBooksInformationFetcher,
+            worldCatInformationFetcher,
+            openLibraryInformationFetcher
         )
 
         for (informationFetcher in informationFetchers) {

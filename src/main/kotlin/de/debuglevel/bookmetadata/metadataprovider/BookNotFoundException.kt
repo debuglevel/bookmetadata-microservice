@@ -1,4 +1,4 @@
-package de.debuglevel.bookmetadata.informationfetcher
+package de.debuglevel.bookmetadata.metadataprovider
 
 class BookNotFoundException : Exception {
     constructor() : super()

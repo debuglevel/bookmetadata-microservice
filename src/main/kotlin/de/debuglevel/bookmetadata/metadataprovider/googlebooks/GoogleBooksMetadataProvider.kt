@@ -1,36 +1,28 @@
-package de.debuglevel.bookmetadata.informationfetcher.googlebooks
+package de.debuglevel.bookmetadata.metadataprovider.googlebooks
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import de.debuglevel.bookmetadata.BookResponseDTO
-import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.informationfetcher.InformationFetcher
+import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
+import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
 import mu.KotlinLogging
-import java.net.URL
+import javax.inject.Singleton
 
-class GoogleBooksInformationFetcher : InformationFetcher() {
+@Singleton
+class GoogleBooksMetadataProvider(
+    override val dataService: GoogleBooksDataService
+) : MetadataProvider() {
     private val logger = KotlinLogging.logger {}
 
     override val name = "Google Books"
 
-    override fun fetchData(isbn: String): String {
-        logger.debug { "Fetching JSON from Google Books API for '$isbn'..." }
-
-        val json = URL("https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn")
-            .readText()
-
-        logger.debug { "Fetched JSON from Google Books API for '$isbn'." }
-        logger.trace { "Fetched JSON from Google Books API for '$isbn': $json" }
-        return json
-    }
-
-    override fun toBook(json: String): BookResponseDTO {
+    override fun toBook(data: String): BookResponseDTO {
         logger.debug("Extracting information from Google Books API JSON...")
 
         val book = BookResponseDTO(null)
 
         // TODO: maybe use Jackson instead of GSON because it's already included in dependencies
-        val jsonObject = Gson().fromJson(json, JsonObject::class.java)
+        val jsonObject = Gson().fromJson(data, JsonObject::class.java)
 
         val bookCount = jsonObject?.getAsJsonPrimitive("totalItems")?.asInt ?: 0
         if (bookCount == 0) {

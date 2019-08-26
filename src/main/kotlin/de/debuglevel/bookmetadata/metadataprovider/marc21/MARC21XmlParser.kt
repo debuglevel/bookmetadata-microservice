@@ -1,4 +1,4 @@
-package de.debuglevel.bookmetadata.informationfetcher.marc21
+package de.debuglevel.bookmetadata.metadataprovider.marc21
 
 import mu.KotlinLogging
 import org.w3c.dom.Document

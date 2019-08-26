@@ -1,31 +1,20 @@
-package de.debuglevel.bookmetadata.informationfetcher.dnb
+package de.debuglevel.bookmetadata.metadataprovider.dnb
 
 import de.debuglevel.bookmetadata.BookResponseDTO
-import de.debuglevel.bookmetadata.informationfetcher.BookNotFoundException
-import de.debuglevel.bookmetadata.informationfetcher.InformationFetcher
-import de.debuglevel.bookmetadata.informationfetcher.marc21.MARC21XmlParser
+import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
+import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
+import de.debuglevel.bookmetadata.metadataprovider.marc21.MARC21XmlParser
 import mu.KotlinLogging
 import java.net.URL
+import javax.inject.Singleton
 
-class DnbInformationFetcher(private val accessToken: String) : InformationFetcher() {
+@Singleton
+class DnbMetadataProvider(
+    override val dataService: DnbDataService
+) : MetadataProvider() {
     private val logger = KotlinLogging.logger {}
 
     override val name = "Deutsche Nationalbibliothek"
-
-    override fun fetchData(isbn: String): String {
-        logger.debug { "Fetching XML from DNB SRU for '$isbn'..." }
-
-        val url = "http://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=isbn%3D$isbn&recordSchema=MARC21-xml&accessToken=$accessToken"
-        val xmlData = URL(url).readText()
-
-        if (xmlData.contains("info:srw/diagnostic/1/3")) {
-            logger.error { "The DNB access token '$accessToken' is invalid:\n$xmlData" }
-            throw InvalidAccessTokenException()
-        }
-
-        logger.debug { "Fetched XML from DNB SRU for '$isbn'." }
-        return xmlData
-    }
 
     override fun toBook(data: String): BookResponseDTO {
         logger.debug { "Extracting information from DNB SRU XML..." }
