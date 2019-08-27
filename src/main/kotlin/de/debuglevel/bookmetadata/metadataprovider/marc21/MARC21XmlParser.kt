@@ -32,7 +32,8 @@ class MARC21XmlParser(xmlData: String) {
     val abstractUrl: String?
 
     init {
-        xmlDocument = buildXmlDocument(xmlData)
+        val cleanedXmlData = convertDiacritics(xmlData)
+        xmlDocument = buildXmlDocument(cleanedXmlData)
 
         bookCount = getXpathValue("/searchRetrieveResponse/numberOfRecords/text()")?.toInt() ?: 0
         year = getValue("264", "c")?.stripNonNumerical()
@@ -55,6 +56,21 @@ class MARC21XmlParser(xmlData: String) {
         // both specific to DNB; should be moved to DnbInformationFetcher
         tocUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltsverzeichnis\"]/../subfield[@code=\"u\"]/text()")
         abstractUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltstext\"]/../subfield[@code=\"u\"]/text()")
+    }
+
+    /**
+     * Replaces a regular character with a diacritic (a with ̈ ) to a regular Unicode umlaut (ä).
+     * Supports only öÖäÄüÜ
+     * DNB sometimes returns those characters instead of proper Unicode umlauts
+     */
+    private fun convertDiacritics(xmlData: String): String {
+        return xmlData
+            .replace("ö", "ö")
+            .replace("Ö", "Ö")
+            .replace("ä", "ä")
+            .replace("Ä", "Ä")
+            .replace("ü", "ü")
+            .replace("Ü", "Ü")
     }
 
     fun getValue(datafieldTag: String, subfieldCode: String): String? {
