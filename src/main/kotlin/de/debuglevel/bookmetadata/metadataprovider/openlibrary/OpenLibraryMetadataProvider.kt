@@ -37,7 +37,9 @@ class OpenLibraryMetadataProvider(
         val subtitle = mainElement.getAsJsonPrimitive("subtitle")?.asString
 
         if (!subtitle.isNullOrBlank()) {
-            book.title += ": $subtitle"
+            book.combinedTitle += ": $subtitle"
+        } else {
+            book.combinedTitle = book.title
         }
 
         book.author = mainElement.getAsJsonArray("authors")
@@ -55,8 +57,16 @@ class OpenLibraryMetadataProvider(
             ?.getAsJsonArray("isbn_13")?.get(0)
             ?.asString
 
+        book.place = mainElement.getAsJsonArray("publish_places")
+            ?.get(0)
+            ?.asJsonObject
+            ?.getAsJsonPrimitive("name")
+            ?.asString
+
         book.publisher = mainElement.getAsJsonArray("publishers")
             ?.joinToString(separator = ", ", transform = { it.asJsonObject.getAsJsonPrimitive("name").asString })
+
+        book.pages = mainElement.getAsJsonPrimitive("number_of_pages")?.asString
 
         logger.debug("Extracted information from OpenLibrary Books API JSON: $book")
         return book

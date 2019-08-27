@@ -10,19 +10,20 @@ object TestDataProvider {
             isbn = requestedIsbn
             title = "Harry Potter und der Stein der Weisen"
             combinedTitle = title
-            author = "J. K. Rowling"
+            author = "Rowling, J. K."
             //author = "Joanne K. Rowling. Aus dem Engl. von Klaus Fritz"
             publisher = "Carlsen"
             year = "1998"
             pages = "335"
             place = "Hamburg, Germany"
-        },
-        BookResponseDTO("9783868943238").apply {
-        },
-        BookResponseDTO("9783621285674").apply {
-        },
-        BookResponseDTO("9783801726973").apply {
         }
+        //,
+//        BookResponseDTO("9783868943238").apply {
+//        },
+//        BookResponseDTO("9783621285674").apply {
+//        },
+//        BookResponseDTO("9783801726973").apply {
+//        }
     )
 
     fun dataProvider() = Stream.of(

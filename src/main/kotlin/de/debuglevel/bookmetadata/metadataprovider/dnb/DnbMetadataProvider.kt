@@ -45,6 +45,7 @@ class DnbMetadataProvider(
         book.pages = marc21XmlParser.pages
         book.tableOfContentsUrl = marc21XmlParser.tocUrl
         book.abstractUrl = marc21XmlParser.abstractUrl
+        book.language = marc21XmlParser.language
 
         val abstractUrl = book.abstractUrl
         book.abstract = if (abstractUrl != null) getAbstract(abstractUrl) else null

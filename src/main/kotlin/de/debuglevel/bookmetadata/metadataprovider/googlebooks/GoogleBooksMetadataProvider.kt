@@ -39,7 +39,9 @@ class GoogleBooksMetadataProvider(
                 ?.get("subtitle")?.asString
 
         if (!subtitle.isNullOrBlank()) {
-            book.title += ": $subtitle"
+            book.combinedTitle += ": $subtitle"
+        } else {
+            book.combinedTitle = book.title
         }
 
         val author = jsonObject?.getAsJsonArray("items")?.get(0)
@@ -48,23 +50,42 @@ class GoogleBooksMetadataProvider(
                 ?.joinToString(separator = ", ", transform = { it.asJsonPrimitive.asString })
         book.author = if (author != null) NameUtils.convertToLastnameFirst(author) else null
 
-        book.year = jsonObject?.getAsJsonArray("items")?.get(0)
+        val date = jsonObject?.getAsJsonArray("items")?.get(0)
                 ?.asJsonObject?.getAsJsonObject("volumeInfo")
                 ?.get("publishedDate")?.asString
+        // convert "2017-12-24" to "2017"
+        book.year = date?.split("-")?.first()
 
-        // TODO: sometimes (maybe always by now?) missing
+        // sometimes missing
         book.isbn = jsonObject?.getAsJsonArray("items")?.get(0)
                 ?.asJsonObject?.getAsJsonObject("volumeInfo")
-                ?.get("industryIdentifiers")?.asJsonArray?.first { it?.asJsonObject?.get("type")?.asString == "ISBN_13" }
+            ?.get("industryIdentifiers")
+            ?.asJsonArray?.firstOrNull { it?.asJsonObject?.get("type")?.asString == "ISBN_13" }
                 ?.asJsonObject?.get("identifier")?.asString
 
         book.publisher = jsonObject?.getAsJsonArray("items")?.get(0)
                 ?.asJsonObject?.getAsJsonObject("volumeInfo")
                 ?.get("publisher")?.asString
 
-        book.description = jsonObject?.getAsJsonArray("items")?.get(0)
+        val description = jsonObject?.getAsJsonArray("items")?.get(0)
                 ?.asJsonObject?.getAsJsonObject("volumeInfo")
                 ?.get("description")?.asString
+
+        book.pages = jsonObject?.getAsJsonArray("items")?.get(0)
+            ?.asJsonObject?.getAsJsonObject("volumeInfo")
+            ?.get("pageCount")?.asString
+
+        book.language = jsonObject?.getAsJsonArray("items")?.get(0)
+            ?.asJsonObject?.getAsJsonObject("volumeInfo")
+            ?.get("language")?.asString
+
+        val textSnippet = jsonObject?.getAsJsonArray("items")?.get(0)
+            ?.asJsonObject?.getAsJsonObject("searchInfo")
+            ?.get("textSnippet")?.asString
+
+        book.abstract = listOf(description, textSnippet)
+            .filter { !it.isNullOrBlank() }
+            .joinToString("\n\n")
 
         logger.debug("Extracted information from Google Books API JSON: $book")
         return book

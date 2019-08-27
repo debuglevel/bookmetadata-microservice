@@ -16,6 +16,7 @@ object TestDataProvider {
             year = "1998"
             pages = "335"
             place = "Hamburg"
+            language = "de"
         },
         BookResponseDTO("9783868943238").apply {
             requestedIsbn = "9783868943238"
@@ -30,6 +31,7 @@ object TestDataProvider {
             year = "2018"
             pages = "834"
             place = "Hallbergmoos/Germany"
+            language = "de"
         },
         BookResponseDTO("9783621285674").apply {
             requestedIsbn = "9783621285674"
@@ -48,6 +50,7 @@ object TestDataProvider {
             year = "2017"
             pages = "415"
             place = "Weinheim"
+            language = "de"
         },
         BookResponseDTO("9783801726973").apply {
             requestedIsbn = "9783801726973"
@@ -67,6 +70,7 @@ object TestDataProvider {
             place = "Göttingen"
             series = "Praxis der Personalpsychologie"
             volume = "Bd. 10"
+            language = "de"
         }
     )
 

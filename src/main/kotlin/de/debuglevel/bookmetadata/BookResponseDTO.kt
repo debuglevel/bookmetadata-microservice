@@ -1,7 +1,7 @@
 package de.debuglevel.bookmetadata
 
 data class BookResponseDTO(
-    var isbn: String?,
+    var isbn: String? = null,
     var requestedIsbn: String? = null,
     var title: String? = null,
     var subtitle: String? = null,

@@ -30,6 +30,7 @@ class MARC21XmlParser(xmlData: String) {
     val subtitle: String?
     val tocUrl: String?
     val abstractUrl: String?
+    val language: String?
 
     init {
         val cleanedXmlData = convertDiacritics(xmlData)
@@ -45,6 +46,7 @@ class MARC21XmlParser(xmlData: String) {
         edition = getValue("250", "a")
         isbn = getValue("020", "a")
         series = getValue("490", "a")
+        language = convertLanguage(getValue("041", "a"))
 
         // if "v" in "490" is not present, "n" in "245" might be
         volume = getValue("490", "v") ?: getValue("245", "n")
@@ -56,6 +58,15 @@ class MARC21XmlParser(xmlData: String) {
         // both specific to DNB; should be moved to DnbInformationFetcher
         tocUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltsverzeichnis\"]/../subfield[@code=\"u\"]/text()")
         abstractUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltstext\"]/../subfield[@code=\"u\"]/text()")
+    }
+
+    private fun convertLanguage(value: String?): String? {
+        return when (value) {
+            "ger" -> "de"
+            "eng" -> "en"
+            null -> null
+            else -> "unknown"
+        }
     }
 
     /**

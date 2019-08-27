@@ -30,7 +30,7 @@ class GoogleBooksMetadataProviderTests {
         // Arrange
 
         // Act
-        val isbn = ISBN(book.isbn!!)
+        val isbn = ISBN(book.requestedIsbn!!)
         val retrievedBook = metadataProvider.getBook(isbn)
 
         // Assert
