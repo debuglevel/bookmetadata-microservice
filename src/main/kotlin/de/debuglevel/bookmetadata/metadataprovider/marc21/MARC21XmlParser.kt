@@ -38,7 +38,7 @@ class MARC21XmlParser(xmlData: String) {
         year = getValue("264", "c")?.stripNonNumerical()
         pages = getValue("300", "a")?.stripNonNumerical()
         title = getValue("245", "a")
-        author = getValue("245", "c")
+        author = getValue("100", "a") ?: getValue("700", "a")
         publisher = getValue("264", "b")
         place = getValue("264", "a")
         edition = getValue("250", "a")
