@@ -16,7 +16,8 @@ class NameUtilsTests {
         "'Friedemann Schulz von Thun', 'Thun, Friedemann Schulz von'",
         "'Alan Turing, Ada Lovelace', 'Turing, Alan; Lovelace, Ada'",
         "'Alan Turing,Ada Lovelace', 'Turing, Alan; Lovelace, Ada'",
-        "'Alan Turing,  Ada Lovelace', 'Turing, Alan; Lovelace, Ada'"
+        "'Alan Turing,  Ada Lovelace', 'Turing, Alan; Lovelace, Ada'",
+        "'Alan Turing; Ada Lovelace', 'Turing, Alan; Lovelace, Ada'"
     )
     fun `parse data from provider`(value: String, expected: String) {
         // Arrange

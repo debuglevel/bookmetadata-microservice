@@ -7,7 +7,7 @@ object NameUtils {
      * If the given String contains a comma, it's assumed that there are multiple names given ("Alan Turing, Ada Lovelace") which will be converted to "Turing, Alan; Lovelace, Ada"
      */
     fun convertToLastnameFirst(name: String): String {
-        val regex = Regex(", *")
+        val regex = Regex("[,;] *")
         return name.split(regex)
             .map { convertOne(it) }
             .joinToString("; ")
