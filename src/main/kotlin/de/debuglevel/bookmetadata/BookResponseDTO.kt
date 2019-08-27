@@ -20,5 +20,6 @@ data class BookResponseDTO(
     var tableOfContentsUrl: String? = null,
     var abstractUrl: String? = null,
     var abstract: String? = null,
+    var language: String? = null,
     var error: String? = null
 )
