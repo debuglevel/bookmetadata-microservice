@@ -3,6 +3,7 @@ package de.debuglevel.bookmetadata.metadataprovider.worldcat
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import de.debuglevel.bookmetadata.BookResponseDTO
+import de.debuglevel.bookmetadata.NameUtils
 import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
 import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
 import mu.KotlinLogging
@@ -31,8 +32,9 @@ class WorldCatMetadataProvider(
         book.title = jsonObject?.getAsJsonArray("list")?.get(0)
                 ?.asJsonObject?.getAsJsonPrimitive("title")?.asString
 
-        book.author = jsonObject?.getAsJsonArray("list")?.get(0)
+        val author = jsonObject?.getAsJsonArray("list")?.get(0)
                 ?.asJsonObject?.getAsJsonPrimitive("author")?.asString
+        book.author = if (author != null) NameUtils.convertToLastnameFirst(author) else null
 
         book.year = jsonObject?.getAsJsonArray("list")?.get(0)
                 ?.asJsonObject?.getAsJsonPrimitive("year")?.asString

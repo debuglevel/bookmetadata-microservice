@@ -3,6 +3,7 @@ package de.debuglevel.bookmetadata.metadataprovider.openlibrary
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import de.debuglevel.bookmetadata.BookResponseDTO
+import de.debuglevel.bookmetadata.NameUtils
 import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
 import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
 import mu.KotlinLogging
@@ -24,7 +25,8 @@ class OpenLibraryMetadataProvider(
         // TODO: maybe use Jackson instead of GSON because it's already included in dependencies
         val jsonObject = Gson().fromJson(data, JsonObject::class.java)
 
-        val mainElement = if (jsonObject?.keySet()?.firstOrNull() != null) jsonObject.getAsJsonObject(jsonObject.keySet()?.first()) else null
+        val mainElement =
+            if (jsonObject?.keySet()?.firstOrNull() != null) jsonObject.getAsJsonObject(jsonObject.keySet()?.first()) else null
 
         if (mainElement == null || jsonObject?.isJsonNull == true) {
             throw BookNotFoundException()
@@ -38,16 +40,23 @@ class OpenLibraryMetadataProvider(
             book.title += ": $subtitle"
         }
 
-        book.author = mainElement.getAsJsonArray("authors")?.joinToString(separator = ", ", transform = { it.asJsonObject.getAsJsonPrimitive("name").asString })
+        book.author = mainElement.getAsJsonArray("authors")
+            ?.joinToString(separator = "; ",
+                transform = {
+                    val name = it.asJsonObject.getAsJsonPrimitive("name").asString
+                    val convertedName = NameUtils.convertToLastnameFirst(name)
+                    convertedName
+                }
+            )
 
         book.year = mainElement.getAsJsonPrimitive("publish_date")?.asString
 
         book.isbn = mainElement.getAsJsonObject("identifiers")
-                ?.getAsJsonArray("isbn_13")?.get(0)
-                ?.asString
+            ?.getAsJsonArray("isbn_13")?.get(0)
+            ?.asString
 
         book.publisher = mainElement.getAsJsonArray("publishers")
-                ?.joinToString(separator = ", ", transform = { it.asJsonObject.getAsJsonPrimitive("name").asString })
+            ?.joinToString(separator = ", ", transform = { it.asJsonObject.getAsJsonPrimitive("name").asString })
 
         logger.debug("Extracted information from OpenLibrary Books API JSON: $book")
         return book
