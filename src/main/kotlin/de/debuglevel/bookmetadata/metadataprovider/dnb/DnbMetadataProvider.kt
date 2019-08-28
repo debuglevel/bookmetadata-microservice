@@ -20,35 +20,36 @@ class DnbMetadataProvider(
         logger.debug { "Extracting information from DNB SRU XML..." }
         logger.trace { data }
 
-        val marc21XmlParser = SruMarcXmlParser(data)
+        val parser = SruMarcXmlParser(data)
 
-        val book = BookResponseDTO(null)
-
-        val countBooks = marc21XmlParser.bookCount
+        val countBooks = parser.bookCount
         if (countBooks == 0) {
             logger.info { "No books found" }
             throw BookNotFoundException()
         }
 
-        book.title = marc21XmlParser.title
-        book.subtitle = marc21XmlParser.subtitle
-        book.combinedTitle = if (book.subtitle.isNullOrBlank()) book.title else "${book.title}: ${book.subtitle}"
-        book.author = marc21XmlParser.author
-        book.year = marc21XmlParser.year
-        book.publisher = marc21XmlParser.publisher
-        book.place = marc21XmlParser.place
-        book.edition = marc21XmlParser.edition
-        book.isbn = marc21XmlParser.isbn
-        book.series = marc21XmlParser.series
-        book.volume = marc21XmlParser.volume
-        //book.price = marc21XmlParser.price
-        book.pages = marc21XmlParser.pages
-        book.tableOfContentsUrl = marc21XmlParser.tocUrl
-        book.abstractUrl = marc21XmlParser.abstractUrl
-        book.language = marc21XmlParser.language
-
-        val abstractUrl = book.abstractUrl
-        book.abstract = if (abstractUrl != null) getAbstract(abstractUrl) else null
+        val book = BookResponseDTO(null).apply {
+            title = parser.title
+            subtitle = parser.subtitle
+            combinedTitle = when {
+                subtitle.isNullOrBlank() -> title
+                else -> "${title}: $subtitle"
+            }
+            author = parser.author
+            year = parser.year
+            publisher = parser.publisher
+            place = parser.place
+            edition = parser.edition
+            isbn = parser.isbn
+            series = parser.series
+            volume = parser.volume
+            //price = parser.price
+            pages = parser.pages
+            tableOfContentsUrl = parser.tocUrl
+            abstractUrl = parser.abstractUrl
+            abstract = abstractUrl?.let { getAbstract(it) }
+            language = parser.language
+        }
 
         logger.debug { "Extracted information from DNB SRU XML." }
         logger.trace { "Extracted information from DNB SRU XML: $book" }
