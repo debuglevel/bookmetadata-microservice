@@ -1,4 +1,4 @@
-package de.debuglevel.bookmetadata.metadataprovider.marc21
+package de.debuglevel.bookmetadata.metadataprovider.dnb.marcxml
 
 import mu.KotlinLogging
 import org.w3c.dom.Document
@@ -9,7 +9,10 @@ import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.xpath.XPathConstants
 import javax.xml.xpath.XPathFactory
 
-class MARC21XmlParser(xmlData: String) {
+/**
+ * Parses MARCXML records embedded in the DNB SRU XML data
+ */
+class SruMarcXmlParser(xmlData: String) {
     private val logger = KotlinLogging.logger {}
 
     private val xmlDocument: Document
@@ -35,7 +38,7 @@ class MARC21XmlParser(xmlData: String) {
     init {
         xmlDocument = buildXmlDocument(xmlData)
 
-        bookCount = getXpathValue("/searchRetrieveResponse/numberOfRecords/text()")?.toInt() ?: 0
+        bookCount = getXPathValue("/searchRetrieveResponse/numberOfRecords/text()")?.toInt() ?: 0
         year = getValue("264", "c")?.stripNonNumerical()
         pages = getValue("300", "a")?.stripNonNumerical()
         title = getValue("245", "a")
@@ -54,9 +57,11 @@ class MARC21XmlParser(xmlData: String) {
         // sometimes, "b" is missing, but "p" is present
         subtitle = getValue("245", "b") ?: getValue("245", "p")
 
-        // both specific to DNB; should be moved to DnbInformationFetcher
-        tocUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltsverzeichnis\"]/../subfield[@code=\"u\"]/text()")
-        abstractUrl = getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltstext\"]/../subfield[@code=\"u\"]/text()")
+        // both specific to DNB; but can remain here as long as this parser is tied to DNB anyway
+        tocUrl =
+            getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltsverzeichnis\"]/../subfield[@code=\"u\"]/text()")
+        abstractUrl =
+            getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltstext\"]/../subfield[@code=\"u\"]/text()")
     }
 
     private fun convertLanguage(value: String?): String? {
@@ -68,13 +73,13 @@ class MARC21XmlParser(xmlData: String) {
         }
     }
 
-    fun getValue(datafieldTag: String, subfieldCode: String): String? {
-        logger.debug { "Getting MARC21 value for datafield tag $datafieldTag, subfield code $subfieldCode..." }
-        return getXpathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='$datafieldTag']//subfield[@code='$subfieldCode']/text()")
+    private fun getValue(datafieldTag: String, subfieldCode: String): String? {
+        logger.debug { "Getting MARC21 value for datafield tag '$datafieldTag', subfield code '$subfieldCode'..." }
+        return getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='$datafieldTag']//subfield[@code='$subfieldCode']/text()")
     }
 
-    private fun getXpathValue(xpathString: String): String? {
-        logger.debug("Getting XPath value for $xpathString...")
+    private fun getXPathValue(xpathString: String): String? {
+        logger.debug("Getting XPath value for '$xpathString'...")
 
         // XPath stuff is not thread-safe; creating new instances therefore
         val xpathFactory = XPathFactory.newInstance()

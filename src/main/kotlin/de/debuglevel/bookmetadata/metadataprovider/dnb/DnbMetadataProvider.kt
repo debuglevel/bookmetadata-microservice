@@ -3,7 +3,7 @@ package de.debuglevel.bookmetadata.metadataprovider.dnb
 import de.debuglevel.bookmetadata.BookResponseDTO
 import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
 import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
-import de.debuglevel.bookmetadata.metadataprovider.marc21.MARC21XmlParser
+import de.debuglevel.bookmetadata.metadataprovider.dnb.marcxml.SruMarcXmlParser
 import mu.KotlinLogging
 import java.net.URL
 import javax.inject.Singleton
@@ -20,7 +20,7 @@ class DnbMetadataProvider(
         logger.debug { "Extracting information from DNB SRU XML..." }
         logger.trace { data }
 
-        val marc21XmlParser = MARC21XmlParser(data)
+        val marc21XmlParser = SruMarcXmlParser(data)
 
         val book = BookResponseDTO(null)
 
