@@ -1,6 +1,7 @@
 package de.debuglevel.bookmetadata.metadataprovider.dnb
 
 import de.debuglevel.bookmetadata.BookResponseDTO
+import java.text.Normalizer
 import java.util.stream.Stream
 
 object TestDataProvider {
@@ -77,7 +78,8 @@ object TestDataProvider {
     fun dataProvider() = Stream.of(
         BookData(
             "9783551551672",
-            """
+            Normalizer.normalize(
+                """
 <?xml version="1.0" encoding="UTF-8"?>
 <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/"><version>1.1</version><numberOfRecords>1</numberOfRecords><records><record><recordSchema>MARC21-xml</recordSchema><recordPacking>xml</recordPacking><recordData><record xmlns="http://www.loc.gov/MARC21/slim" type="Bibliographic">
     <leader>00000nam a2200000 c 4500</leader>
@@ -183,11 +185,13 @@ object TestDataProvider {
       <subfield code="a">ra</subfield>
     </datafield>
   </record></recordData><recordPosition>1</recordPosition></record></records><nextRecordPosition>2</nextRecordPosition><echoedSearchRetrieveRequest><version>1.1</version><query>isbn=${'$'}9783551551672</query><xQuery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><recordSchema>MARC21-xml</recordSchema></echoedSearchRetrieveRequest><extraResponseData><accountOf xmlns="">Arbeitsgemeinschaft für Verhaltensmodifikation</accountOf></extraResponseData></searchRetrieveResponse>
-            """.trimIndent()
+            """.trimIndent(), Normalizer.Form.NFC
+            )
         ),
         BookData(
             "9783868943238",
-            """
+            Normalizer.normalize(
+                """
 <?xml version="1.0" encoding="UTF-8"?>
 <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/"><version>1.1</version><numberOfRecords>1</numberOfRecords><records><record><recordSchema>MARC21-xml</recordSchema><recordPacking>xml</recordPacking><recordData><record xmlns="http://www.loc.gov/MARC21/slim" type="Bibliographic">
     <leader>00000nam a2200000 c 4500</leader>
@@ -411,11 +415,13 @@ object TestDataProvider {
       <subfield code="a">ra</subfield>
     </datafield>
   </record></recordData><recordPosition>1</recordPosition></record></records><nextRecordPosition>2</nextRecordPosition><echoedSearchRetrieveRequest><version>1.1</version><query>isbn=9783868943238</query><xQuery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><recordSchema>MARC21-xml</recordSchema></echoedSearchRetrieveRequest><extraResponseData><accountOf xmlns="">Arbeitsgemeinschaft für Verhaltensmodifikation</accountOf></extraResponseData></searchRetrieveResponse>
-            """.trimIndent()
+            """.trimIndent(), Normalizer.Form.NFC
+            )
         ),
         BookData(
             "9783621285674",
-            """
+            Normalizer.normalize(
+                """
 <?xml version="1.0" encoding="UTF-8"?>
 <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/"><version>1.1</version><numberOfRecords>1</numberOfRecords><records><record><recordSchema>MARC21-xml</recordSchema><recordPacking>xml</recordPacking><recordData><record xmlns="http://www.loc.gov/MARC21/slim" type="Bibliographic">
     <leader>00000pam a2200000 c 4500</leader>
@@ -734,11 +740,13 @@ object TestDataProvider {
       <subfield code="x">Psychologie</subfield>
     </datafield>
   </record></recordData><recordPosition>1</recordPosition></record></records><nextRecordPosition>2</nextRecordPosition><echoedSearchRetrieveRequest><version>1.1</version><query>isbn=9783621285674</query><xQuery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><recordSchema>MARC21-xml</recordSchema></echoedSearchRetrieveRequest><extraResponseData><accountOf xmlns="">Arbeitsgemeinschaft für Verhaltensmodifikation</accountOf></extraResponseData></searchRetrieveResponse>
-            """.trimIndent()
+            """.trimIndent(), Normalizer.Form.NFC
+            )
         ),
         BookData(
             "9783801726973",
-            """
+            Normalizer.normalize(
+                """
 <?xml version="1.0" encoding="UTF-8"?>
 <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/"><version>1.1</version><numberOfRecords>1</numberOfRecords><records><record><recordSchema>MARC21-xml</recordSchema><recordPacking>xml</recordPacking><recordData><record xmlns="http://www.loc.gov/MARC21/slim" type="Bibliographic">
     <leader>00000pam a2200000 c 4500</leader>
@@ -984,7 +992,8 @@ object TestDataProvider {
       <subfield code="x">Psychologie</subfield>
     </datafield>
   </record></recordData><recordPosition>1</recordPosition></record></records><nextRecordPosition>2</nextRecordPosition><echoedSearchRetrieveRequest><version>1.1</version><query>isbn=9783801726973</query><xQuery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><recordSchema>MARC21-xml</recordSchema></echoedSearchRetrieveRequest><extraResponseData><accountOf xmlns="">Arbeitsgemeinschaft für Verhaltensmodifikation</accountOf></extraResponseData></searchRetrieveResponse>
-            """.trimIndent()
+            """.trimIndent(), Normalizer.Form.NFC
+            )
         )
         ,
         BookData(
