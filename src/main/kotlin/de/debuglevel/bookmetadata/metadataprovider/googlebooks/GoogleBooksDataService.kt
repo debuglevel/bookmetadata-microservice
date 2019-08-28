@@ -4,6 +4,7 @@ import de.debuglevel.bookmetadata.metadataprovider.DataService
 import de.debuglevel.bookmetadata.metadataprovider.ISBN
 import mu.KotlinLogging
 import java.net.URL
+import java.text.Normalizer
 import javax.inject.Singleton
 
 @Singleton
@@ -15,7 +16,9 @@ class GoogleBooksDataService : DataService {
 
         val url = "https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn.normalized}"
         logger.debug { "Requesting $url ..." }
-        val json = URL(url).readText()
+        val json = URL(url).readText().let {
+            Normalizer.normalize(it, Normalizer.Form.NFC)
+        }
 
         logger.debug { "Fetched JSON from Google Books API for '$isbn'." }
         logger.trace { "Fetched JSON from Google Books API for '$isbn': $json" }

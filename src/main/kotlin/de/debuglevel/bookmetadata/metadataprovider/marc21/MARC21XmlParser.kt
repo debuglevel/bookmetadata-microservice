@@ -33,8 +33,7 @@ class MARC21XmlParser(xmlData: String) {
     val language: String?
 
     init {
-        val cleanedXmlData = convertDiacritics(xmlData)
-        xmlDocument = buildXmlDocument(cleanedXmlData)
+        xmlDocument = buildXmlDocument(xmlData)
 
         bookCount = getXpathValue("/searchRetrieveResponse/numberOfRecords/text()")?.toInt() ?: 0
         year = getValue("264", "c")?.stripNonNumerical()
@@ -67,21 +66,6 @@ class MARC21XmlParser(xmlData: String) {
             null -> null
             else -> "unknown"
         }
-    }
-
-    /**
-     * Replaces a regular character with a diacritic (a with ̈ ) to a regular Unicode umlaut (ä).
-     * Supports only öÖäÄüÜ
-     * DNB sometimes returns those characters instead of proper Unicode umlauts
-     */
-    private fun convertDiacritics(xmlData: String): String {
-        return xmlData
-            .replace("ö", "ö")
-            .replace("Ö", "Ö")
-            .replace("ä", "ä")
-            .replace("Ä", "Ä")
-            .replace("ü", "ü")
-            .replace("Ü", "Ü")
     }
 
     fun getValue(datafieldTag: String, subfieldCode: String): String? {
@@ -123,3 +107,4 @@ class MARC21XmlParser(xmlData: String) {
         return builder.parse(inputSource)
     }
 }
+
