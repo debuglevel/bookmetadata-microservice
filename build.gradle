@@ -123,6 +123,7 @@ dependencies {
 
     // JSON
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.jayway.jsonpath:json-path:2.4.0'
 
     // Swagger / OpenAPI
     kapt "io.micronaut.configuration:micronaut-openapi"
