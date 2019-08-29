@@ -1,6 +1,7 @@
 package de.debuglevel.bookmetadata.metadataprovider.dnb
 
 import de.debuglevel.bookmetadata.BookResponseDTO
+import de.debuglevel.bookmetadata.HtmlConverter
 import de.debuglevel.bookmetadata.metadataprovider.BookNotFoundException
 import de.debuglevel.bookmetadata.metadataprovider.MetadataProvider
 import de.debuglevel.bookmetadata.metadataprovider.dnb.marcxml.SruMarcXmlParser
@@ -47,7 +48,11 @@ class DnbMetadataProvider(
             pages = parser.pages
             tableOfContentsUrl = parser.tocUrl
             abstractUrl = parser.abstractUrl
-            abstract = abstractUrl?.let { getAbstract(it) }
+            abstract = abstractUrl?.let { abstractUrl ->
+                getAbstract(abstractUrl)?.let { abstract ->
+                    HtmlConverter().toPlaintext(abstract)
+                }
+            }
             language = parser.language
         }
 

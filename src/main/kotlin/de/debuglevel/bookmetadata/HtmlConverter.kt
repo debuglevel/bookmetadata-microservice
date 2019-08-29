@@ -88,7 +88,7 @@ class HtmlConverter {
         }
 
         companion object {
-            private val maxWidth = 80
+            private val maxWidth = 99999999
         }
     }
 }

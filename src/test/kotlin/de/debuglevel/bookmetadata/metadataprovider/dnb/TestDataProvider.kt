@@ -44,7 +44,17 @@ object TestDataProvider {
             abstractUrl =
                 "http://deposit.dnb.de/cgi-bin/dokserv?id=9fe9bde43c444775be1b264cc8abab4a&prov=M&dok_var=1&dok_ext=htm"
             abstract =
-                "Angaben aus der Verlagsmeldung <br><br><h3> Kognitive Therapie der Depression  Cognitive Therapy of Depression  / von Aaron T. Beck, A. John Rush, Brian F. Shaw, Gary Emery</h3><br><p>Der weltweit anerkannte und bewährte Ansatz zur Behandlung von Depressionen: Aaron T. Beck erklärt sein Modell und geht konkret und ausführlich auf die kognitive Therapie für depressive Patienten ein.<BR><BR>Mit Erkenntnis, Einsicht und Bewusstwerdung gegen Depression: Die kognitive Therapie der Depression nach Aaron T. Beck ist weltweit anerkannt und erfolgreich. In diesem Buch wird das bewährte Modell dargestellt. Die Behandlung depressiver Patienten und die Rolle der Emotionen in der Therapie werden ausführlich und konkret beschrieben. Im Anhang: zusätzliche Arbeitsmaterialien, Fragebogen, Listen und andere Diagnoseinstrumente sowie Forschungsarbeiten aus dem deutschsprachigen Raum. Ein umfassendes Standardwerk zur Depressionstherapie.<BR>"
+                """
+Angaben aus der Verlagsmeldung 
+
+
+ Kognitive Therapie der Depression Cognitive Therapy of Depression / von Aaron T. Beck, A. John Rush, Brian F. Shaw, Gary Emery
+
+
+Der weltweit anerkannte und bewährte Ansatz zur Behandlung von Depressionen: Aaron T. Beck erklärt sein Modell und geht konkret und ausführlich auf die kognitive Therapie für depressive Patienten ein.
+
+Mit Erkenntnis, Einsicht und Bewusstwerdung gegen Depression: Die kognitive Therapie der Depression nach Aaron T. Beck ist weltweit anerkannt und erfolgreich. In diesem Buch wird das bewährte Modell dargestellt. Die Behandlung depressiver Patienten und die Rolle der Emotionen in der Therapie werden ausführlich und konkret beschrieben. Im Anhang: zusätzliche Arbeitsmaterialien, Fragebogen, Listen und andere Diagnoseinstrumente sowie Forschungsarbeiten aus dem deutschsprachigen Raum. Ein umfassendes Standardwerk zur Depressionstherapie.
+                """.trimIndent()
             author = "Beck, Aaron T."
             //author = "Aaaron T. Beck, A. John Rush, Brian F. Shaw, Gary Emery"
             publisher = "Beltz"
@@ -62,7 +72,16 @@ object TestDataProvider {
             tableOfContentsUrl = "http://d-nb.info/107205048X/04"
             abstractUrl = "http://deposit.dnb.de/cgi-bin/dokserv?id=5288410&prov=M&dok_var=1&dok_ext=htm"
             abstract =
-                "Angaben aus der Verlagsmeldung <br><br><h3> Soziale Kompetenzen fördern  / von Uwe Peter Kanning</h3><br><p>Soziale Kompetenzen sind in Personalabteilungen ein wichtiges Thema. Neben fachlichen Kompetenzen sind sie zu einer Schlüsselvariable der Personalauswahl und -platzierung geworden und finden darüber hinaus in Form von Führungskräfteseminaren große Beachtung in der Personalentwicklung. Der großen Popularität des Konzeptes steht jedoch nicht selten eine gewisse Konzeptionslosigkeit gegenüber, denn viele verstehen unter sozialen Kompetenzen etwas anderes. <BR>Vor dem Hintergrund psychologischer Theorien und Forschungsergebnisse bringt dieser Band Struktur in die Vielfalt des Themas. Die Neuauflage berücksichtigt dabei aktuelle Entwicklungen auf diesem Gebiet. Zunächst wird eine Abgrenzung grundlegender Begriffe vorgenommen, ehe die Entstehung sozial kompetenten Verhaltens sowie die Ursachen für sozial inkompetentes Verhalten im beruflichen Kontext diskutiert werden. Nach einer Darstellung unterschiedlicher Methoden zur Diagnose sozialer Kompetenzen geht es schließlich um die Frage, wie sich soziale Kompetenzen im Rahmen der Personalentwicklung fördern lassen. Fallbeispiele illustrieren, wie dabei vorgegangen werden kann.<BR>"
+                """
+Angaben aus der Verlagsmeldung 
+
+
+ Soziale Kompetenzen fördern / von Uwe Peter Kanning
+
+
+Soziale Kompetenzen sind in Personalabteilungen ein wichtiges Thema. Neben fachlichen Kompetenzen sind sie zu einer Schlüsselvariable der Personalauswahl und -platzierung geworden und finden darüber hinaus in Form von Führungskräfteseminaren große Beachtung in der Personalentwicklung. Der großen Popularität des Konzeptes steht jedoch nicht selten eine gewisse Konzeptionslosigkeit gegenüber, denn viele verstehen unter sozialen Kompetenzen etwas anderes. 
+Vor dem Hintergrund psychologischer Theorien und Forschungsergebnisse bringt dieser Band Struktur in die Vielfalt des Themas. Die Neuauflage berücksichtigt dabei aktuelle Entwicklungen auf diesem Gebiet. Zunächst wird eine Abgrenzung grundlegender Begriffe vorgenommen, ehe die Entstehung sozial kompetenten Verhaltens sowie die Ursachen für sozial inkompetentes Verhalten im beruflichen Kontext diskutiert werden. Nach einer Darstellung unterschiedlicher Methoden zur Diagnose sozialer Kompetenzen geht es schließlich um die Frage, wie sich soziale Kompetenzen im Rahmen der Personalentwicklung fördern lassen. Fallbeispiele illustrieren, wie dabei vorgegangen werden kann.
+                """.trimIndent()
             author = "Kanning, Uwe Peter"
             //author = "Aaaron T. Beck, A. John Rush, Brian F. Shaw, Gary Emery"
             publisher = "Hogrefe"
@@ -82,7 +101,15 @@ object TestDataProvider {
             tableOfContentsUrl = "http://d-nb.info/984342737/04"
             abstractUrl = "http://deposit.dnb.de/cgi-bin/dokserv?id=2964934&prov=M&dok_var=1&dok_ext=htm"
             abstract =
-                "Angaben aus der Verlagsmeldung <br><br><h3> Impulse für Beratung und Therapie  : Kommunikationspsychologische Miniaturen 1  / von Friedemann Schulz von Thun, Dagmar Kumbier</h3><br><p>Die Kommunikationspsychologie nach Schulz von Thun hat viele neue Forschungsprojekte inspiriert. Dieser erste Band der \u0084Impulse\u0093-Reihe versammelt anschauliche Beispiele für Praktiker und interessierte Laien zum Thema Beratung und Therapie. Eine inspirierende Übersicht über den derzeitigen Forschungsstand.<BR>"
+                """
+Angaben aus der Verlagsmeldung 
+
+
+ Impulse für Beratung und Therapie : Kommunikationspsychologische Miniaturen 1 / von Friedemann Schulz von Thun, Dagmar Kumbier
+
+
+Die Kommunikationspsychologie nach Schulz von Thun hat viele neue Forschungsprojekte inspiriert. Dieser erste Band der Impulse-Reihe versammelt anschauliche Beispiele für Praktiker und interessierte Laien zum Thema Beratung und Therapie. Eine inspirierende Übersicht über den derzeitigen Forschungsstand.
+                """.trimIndent()
             author = "Thun, Friedemann Schulz von; Kumbier, Dagmar (Hg.)"
             publisher = "Rowohlt-Taschenbuch-Verl."
             year = "2008"
