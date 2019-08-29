@@ -1,5 +1,6 @@
 package de.debuglevel.bookmetadata.metadataprovider.dnb.marcxml
 
+import de.debuglevel.bookmetadata.NameUtils
 import mu.KotlinLogging
 import org.w3c.dom.Document
 import org.w3c.dom.NodeList
@@ -42,7 +43,13 @@ class SruMarcXmlParser(xmlData: String) {
         year = getValue("264", "c")?.stripNonNumerical()
         pages = getValue("300", "a")?.stripNonNumerical()
         title = getValue("245", "a")
-        author = getValue("100", "a") ?: getValue("700", "a")
+
+        // there are various places, in which the authors are available in various formats
+        author =
+            getValue("100", "a")
+                ?: getValue("700", "a")
+                        ?: NameUtils.convertToLastnameFirst(getValue("245", "c"))
+
         publisher = getValue("264", "b")
         place = getValue("264", "a")
         edition = getValue("250", "a")
