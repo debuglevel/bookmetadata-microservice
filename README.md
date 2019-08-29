@@ -1,5 +1,11 @@
 **This README is out of date for the current commit, as this microservice is migrating to Micronaut! Switch to a tagged commit (i.e. 0.0.2) to get a stable and well documented version**
 
+<!--- some badges to display on the GitHub page -->
+![Travis (.org)](https://img.shields.io/travis/debuglevel/bookmetadata-microservice?label=Travis%20build)
+![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/debuglevel/bookmetadata-microservice?label=GitLab%20build)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/debuglevel/bookmetadata-microservice?sort=semver)
+![GitHub](https://img.shields.io/github/license/debuglevel/bookmetadata-microservice)
+
 # Book Metadata Microservice
 
 This is a REST microservice for retrieving book metadata from various sources.
