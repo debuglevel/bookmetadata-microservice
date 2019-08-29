@@ -16,60 +16,51 @@ import javax.xml.xpath.XPathFactory
 class SruMarcXmlParser(xmlData: String) {
     private val logger = KotlinLogging.logger {}
 
-    private val xmlDocument: Document
+    private val xmlDocument = buildXmlDocument(xmlData)
     private val record = 1
 
     val bookCount: Int
+        get() = getXPathValue("/searchRetrieveResponse/numberOfRecords/text()")?.toInt() ?: 0
     val year: String?
+        get() = getValue("264", "c")?.stripNonNumerical()
     val pages: String?
+        get() = getValue("300", "a")?.stripNonNumerical()
     val title: String?
+        get() = getValue("245", "a")
     val author: String?
+        get() {
+            // there are various places, in which the authors are available in various formats
+            return getValue("100", "a")
+                ?: getValue("700", "a")
+                ?: NameUtils.convertToLastnameFirst(getValue("245", "c"))
+        }
     val publisher: String?
+        get() = getValue("264", "b")
     val place: String?
+        get() = getValue("264", "a")
     val edition: String?
+        get() = getValue("250", "a")
     val isbn: String?
+        get() = getValue("020", "a")
     val series: String?
+        get() = getValue("490", "a")
     val volume: String?
+        get() {
+            // if "v" in "490" is not present, "n" in "245" might be
+            return getValue("490", "v") ?: getValue("245", "n")
+        }
     //val price: String?
     val subtitle: String?
+        get() {
+            // sometimes, "b" is missing, but "p" is present
+            return getValue("245", "b") ?: getValue("245", "p")
+        }
     val tocUrl: String?
+        get() = getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltsverzeichnis\"]/../subfield[@code=\"u\"]/text()")
     val abstractUrl: String?
+        get() = getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltstext\"]/../subfield[@code=\"u\"]/text()")
     val language: String?
-
-    init {
-        xmlDocument = buildXmlDocument(xmlData)
-
-        bookCount = getXPathValue("/searchRetrieveResponse/numberOfRecords/text()")?.toInt() ?: 0
-        year = getValue("264", "c")?.stripNonNumerical()
-        pages = getValue("300", "a")?.stripNonNumerical()
-        title = getValue("245", "a")
-
-        // there are various places, in which the authors are available in various formats
-        author =
-            getValue("100", "a")
-                ?: getValue("700", "a")
-                        ?: NameUtils.convertToLastnameFirst(getValue("245", "c"))
-
-        publisher = getValue("264", "b")
-        place = getValue("264", "a")
-        edition = getValue("250", "a")
-        isbn = getValue("020", "a")
-        series = getValue("490", "a")
-        language = convertLanguage(getValue("041", "a"))
-
-        // if "v" in "490" is not present, "n" in "245" might be
-        volume = getValue("490", "v") ?: getValue("245", "n")
-        //price = getValue("020", "c")
-
-        // sometimes, "b" is missing, but "p" is present
-        subtitle = getValue("245", "b") ?: getValue("245", "p")
-
-        // both specific to DNB; but can remain here as long as this parser is tied to DNB anyway
-        tocUrl =
-            getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltsverzeichnis\"]/../subfield[@code=\"u\"]/text()")
-        abstractUrl =
-            getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='856']/subfield[@code=\"3\"][.=\"Inhaltstext\"]/../subfield[@code=\"u\"]/text()")
-    }
+        get() = convertLanguage(getValue("041", "a"))
 
     private fun convertLanguage(value: String?): String? {
         return when (value) {
