@@ -8,7 +8,7 @@ object NameUtils {
      */
     fun convertToLastnameFirst(name: String?): String? {
         if (name.isNullOrBlank()) {
-            return null
+            return name
         }
 
         val regex = Regex(" *[,;] *")
@@ -20,6 +20,10 @@ object NameUtils {
 
     private fun convertOne(name: String): String {
         val parts = name.split(" ")
+
+        if (parts.count() == 1) {
+            return name
+        }
 
         // Search the last word which is not something like "(Hrsg.)" and take it as the lastname.
         val parenthesesRegex = Regex("""[(\[].*[)\]]""")
