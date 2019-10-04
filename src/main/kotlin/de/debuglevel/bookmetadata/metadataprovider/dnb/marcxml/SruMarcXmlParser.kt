@@ -41,6 +41,7 @@ class SruMarcXmlParser(xmlData: String) {
             // "ADDED ENTRY--PERSONAL NAME (Nebeneintragung - Personenname)"
             // format: "Freud, Sigmund"
             // is additional information (if existent) to field 100
+            // CAVEAT: may contain the main author again
             val field700a = getValues("700", "a")
             // "TITLE STATEMENT (Titelangabe); Statement of responsibility, etc. (Verfasserangabe etc.)"
             // some other aggregated information which may contain the author if not present in 100a and 700a
@@ -50,6 +51,8 @@ class SruMarcXmlParser(xmlData: String) {
             //
             val personalEntries = listOf(field100a)
                 .plus(field700a)
+                .filterNotNull() // remove possible null values
+                .distinct() // remove multiple entries for the same author
                 .joinToString("; ")
 
             val author = if (personalEntries.isNotEmpty()) {

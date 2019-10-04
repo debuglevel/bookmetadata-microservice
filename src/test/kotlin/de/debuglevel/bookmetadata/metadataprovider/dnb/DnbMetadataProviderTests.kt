@@ -34,6 +34,29 @@ class DnbMetadataProviderTests {
         val retrievedBook = metadataProvider.getBook(isbn)
 
         // Assert
+        // assert each field separately, because it is very cumbersome to find the toString() differences if any does not match
+        assertThat(retrievedBook.isbn).isEqualTo(book.isbn)
+        assertThat(retrievedBook.requestedIsbn).isEqualTo(book.requestedIsbn)
+        assertThat(retrievedBook.title).isEqualTo(book.title)
+        assertThat(retrievedBook.subtitle).isEqualTo(book.subtitle)
+        assertThat(retrievedBook.combinedTitle).isEqualTo(book.combinedTitle)
+        assertThat(retrievedBook.author).isEqualTo(book.author)
+        assertThat(retrievedBook.year).isEqualTo(book.year)
+        assertThat(retrievedBook.edition).isEqualTo(book.edition)
+        assertThat(retrievedBook.publisher).isEqualTo(book.publisher)
+        assertThat(retrievedBook.place).isEqualTo(book.place)
+        assertThat(retrievedBook.description).isEqualTo(book.description)
+        assertThat(retrievedBook.source).isEqualTo(book.source)
+        assertThat(retrievedBook.series).isEqualTo(book.series)
+        assertThat(retrievedBook.volume).isEqualTo(book.volume)
+        assertThat(retrievedBook.price).isEqualTo(book.price)
+        assertThat(retrievedBook.pages).isEqualTo(book.pages)
+        assertThat(retrievedBook.tableOfContentsUrl).isEqualTo(book.tableOfContentsUrl)
+        assertThat(retrievedBook.abstractUrl).isEqualTo(book.abstractUrl)
+        assertThat(retrievedBook.abstract).isEqualTo(book.abstract)
+        assertThat(retrievedBook.language).isEqualTo(book.language)
+        assertThat(retrievedBook.error).isEqualTo(book.error)
+
         assertThat(retrievedBook).isEqualTo(book)
     }
 
