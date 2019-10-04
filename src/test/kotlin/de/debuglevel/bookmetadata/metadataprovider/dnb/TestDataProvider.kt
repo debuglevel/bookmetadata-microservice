@@ -118,6 +118,33 @@ Die Kommunikationspsychologie nach Schulz von Thun hat viele neue Forschungsproj
             series = "Rororo"
             volume = "62347 : Sachbuch : Miteinander reden: Praxis"
             language = "de"
+        },
+        BookResponseDTO("9783944020020").apply {
+            requestedIsbn = "9783944020020"
+            isbn = requestedIsbn
+            title = "\u0098Das\u009C Triple P Elternarbeitsbuc"
+            combinedTitle = "$title"
+            tableOfContentsUrl = "http://d-nb.info/1067306234/04"
+            abstractUrl = "http://deposit.dnb.de/cgi-bin/dokserv?id=5156500&prov=M&dok_var=1&dok_ext=htm"
+            abstract =
+                """
+Angaben aus der Verlagsmeldung 
+
+
+ Triple P Elternarbeitsbuch / von Carol Markie-Dadds, Matthew R. Sanders, Karen M.T. Turner
+ 
+ 
+Dieses Buch ist Bestandteil einer Reihe von Veröffentlichungen zum Positiven Erziehungsprogramm Triple P, die sich an Eltern und an Fachleute, die mit Eltern und Kindern arbeiten, richtet. Triple P ist ein wissenschaftlich fundierter Ansatz zur Unterstützung von Familien mit dem Ziel, Eltern dabei zu helfen, ihre Erziehungsfertigkeiten zu verbessern und eine gute Beziehung zu ihrem Kind zu fördern.
+Dieses einzigartige Programm wurde von Prof. Dr. Matthew R. Sanders und seinen Kollegen im Institut für Psychologie der Universität von Queensland/Australien entwickelt. Es wird international eingesetzt und wissenschaftlich begleitet.
+                """.trimIndent()
+            author = "Markie-Dadds, Carol; Sanders, Matthew R.; Turner, Karen M. T."
+            publisher = "Triple P Interantional Pty. Ltd."
+            year = "2013"
+            pages = "180"
+            edition = "3. Auflage"
+            place = "[Milton]"
+            series = "Triple P"
+            language = "de"
         }
     )
 
@@ -1174,6 +1201,219 @@ Die Kommunikationspsychologie nach Schulz von Thun hat viele neue Forschungsproj
       <subfield code="a">ra</subfield>
     </datafield>
   </record></recordData><recordPosition>1</recordPosition></record></records><nextRecordPosition>2</nextRecordPosition><echoedSearchRetrieveRequest><version>1.1</version><query>isbn=9783499623479</query><xQuery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/><recordSchema>MARC21-xml</recordSchema></echoedSearchRetrieveRequest><extraResponseData><accountOf xmlns="">Arbeitsgemeinschaft für Verhaltensmodifikation</accountOf></extraResponseData></searchRetrieveResponse>
+            """.trimIndent(), Normalizer.Form.NFC
+            )
+        )
+        ,
+        BookData(
+            "9783944020020",
+            Normalizer.normalize(
+                """
+<searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+<version>1.1</version>
+<numberOfRecords>1</numberOfRecords>
+<records>
+<record>
+<recordSchema>MARC21-xml</recordSchema>
+<recordPacking>xml</recordPacking>
+<recordData>
+<record xmlns="http://www.loc.gov/MARC21/slim" type="Bibliographic">
+<leader>00000pam a2200000 c 4500</leader>
+<controlfield tag="001">1067306234</controlfield>
+<controlfield tag="003">DE-101</controlfield>
+<controlfield tag="005">20171202074303.0</controlfield>
+<controlfield tag="007">tu</controlfield>
+<controlfield tag="008">150220s2013 at ||||| |||| 00||||ger </controlfield>
+<datafield tag="015" ind1=" " ind2=" ">
+<subfield code="a">16,A12</subfield>
+<subfield code="z">15,N09</subfield>
+<subfield code="2">dnb</subfield>
+</datafield>
+<datafield tag="016" ind1="7" ind2=" ">
+<subfield code="2">DE-101</subfield>
+<subfield code="a">1067306234</subfield>
+</datafield>
+<datafield tag="020" ind1=" " ind2=" ">
+<subfield code="a">9783944020020</subfield>
+<subfield code="c">
+Broschur : EUR 21.50 (DE), EUR 22.10 (AT), sfr 30.90 (freier Pr.)
+</subfield>
+<subfield code="9">978-3-944020-02-0</subfield>
+</datafield>
+<datafield tag="024" ind1="3" ind2=" ">
+<subfield code="a">9783944020020</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(DE-599)DNB1067306234</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)904165210</subfield>
+</datafield>
+<datafield tag="040" ind1=" " ind2=" ">
+<subfield code="a">1145</subfield>
+<subfield code="b">ger</subfield>
+<subfield code="c">DE-101</subfield>
+<subfield code="d">9999</subfield>
+<subfield code="e">rda</subfield>
+</datafield>
+<datafield tag="041" ind1=" " ind2=" ">
+<subfield code="a">ger</subfield>
+</datafield>
+<datafield tag="044" ind1=" " ind2=" ">
+<subfield code="c">XE-AU</subfield>
+</datafield>
+<datafield tag="082" ind1="0" ind2="4">
+<subfield code="8">1\u</subfield>
+<subfield code="a">649.1</subfield>
+<subfield code="q">DE-101</subfield>
+<subfield code="2">22/ger</subfield>
+</datafield>
+<datafield tag="083" ind1="7" ind2=" ">
+<subfield code="a">640</subfield>
+<subfield code="a">370</subfield>
+<subfield code="q">DE-101</subfield>
+<subfield code="2">23sdnb</subfield>
+</datafield>
+<datafield tag="085" ind1=" " ind2=" ">
+<subfield code="8">1\u</subfield>
+<subfield code="b">649.1</subfield>
+</datafield>
+<datafield tag="090" ind1=" " ind2=" ">
+<subfield code="a">b</subfield>
+</datafield>
+<datafield tag="100" ind1="1" ind2=" ">
+<subfield code="0">(DE-588)129409308</subfield>
+<subfield code="0">http://d-nb.info/gnd/129409308</subfield>
+<subfield code="0">(DE-101)129409308</subfield>
+<subfield code="a">Markie-Dadds, Carol</subfield>
+<subfield code="e">Verfasser</subfield>
+<subfield code="4">aut</subfield>
+</datafield>
+<datafield tag="245" ind1="1" ind2="0">
+<subfield code="a">Das Triple P Elternarbeitsbuch</subfield>
+<subfield code="c">
+Carol Markie-Dadds, MPsychClin; Matthew R. Sanders, PhD; Karen M.T. Turner, PhD
+</subfield>
+</datafield>
+<datafield tag="250" ind1=" " ind2=" ">
+<subfield code="a">3. Auflage</subfield>
+</datafield>
+<datafield tag="259" ind1=" " ind2=" ">
+<subfield code="a">13</subfield>
+</datafield>
+<datafield tag="264" ind1=" " ind2="1">
+<subfield code="a">[Milton]</subfield>
+<subfield code="b">Triple P Interantional Pty. Ltd.</subfield>
+<subfield code="c">[2013]</subfield>
+</datafield>
+<datafield tag="300" ind1=" " ind2=" ">
+<subfield code="a">xii, 180 Seiten</subfield>
+<subfield code="b">Illustrationen</subfield>
+<subfield code="c">25 cm, 354 g</subfield>
+</datafield>
+<datafield tag="336" ind1=" " ind2=" ">
+<subfield code="a">Text</subfield>
+<subfield code="b">txt</subfield>
+<subfield code="2">rdacontent</subfield>
+</datafield>
+<datafield tag="337" ind1=" " ind2=" ">
+<subfield code="a">ohne Hilfsmittel zu benutzen</subfield>
+<subfield code="b">n</subfield>
+<subfield code="2">rdamedia</subfield>
+</datafield>
+<datafield tag="338" ind1=" " ind2=" ">
+<subfield code="a">Band</subfield>
+<subfield code="b">nc</subfield>
+<subfield code="2">rdacarrier</subfield>
+</datafield>
+<datafield tag="490" ind1="0" ind2=" ">
+<subfield code="a">Triple P</subfield>
+</datafield>
+<datafield tag="653" ind1=" " ind2=" ">
+<subfield code="a">(Produktform)Paperback / softback</subfield>
+</datafield>
+<datafield tag="653" ind1=" " ind2=" ">
+<subfield code="a">(Produktform (spezifisch))Unsewn / adhesive bound</subfield>
+</datafield>
+<datafield tag="653" ind1=" " ind2=" ">
+<subfield code="a">Erziehung, Triple P, Elternratgeber, Eltern</subfield>
+</datafield>
+<datafield tag="653" ind1=" " ind2=" ">
+<subfield code="a">
+(VLB-WN)1484: Hardcover, Softcover / Ratgeber/Lebenshilfe, Alltag/Familie
+</subfield>
+</datafield>
+<datafield tag="655" ind1=" " ind2="7">
+<subfield code="0">(DE-588)4048476-2</subfield>
+<subfield code="0">http://d-nb.info/gnd/4048476-2</subfield>
+<subfield code="0">(DE-101)040484769</subfield>
+<subfield code="a">Ratgeber</subfield>
+<subfield code="2">gnd-content</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="0">(DE-588)114198136</subfield>
+<subfield code="0">http://d-nb.info/gnd/114198136</subfield>
+<subfield code="0">(DE-101)114198136</subfield>
+<subfield code="a">Sanders, Matthew R.</subfield>
+<subfield code="e">Verfasser</subfield>
+<subfield code="4">aut</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="0">(DE-588)129409316</subfield>
+<subfield code="0">http://d-nb.info/gnd/129409316</subfield>
+<subfield code="0">(DE-101)129409316</subfield>
+<subfield code="a">Turner, Karen M. T.</subfield>
+<subfield code="e">Verfasser</subfield>
+<subfield code="4">aut</subfield>
+</datafield>
+<datafield tag="710" ind1="2" ind2=" ">
+<subfield code="a">Triple P Deutschland GmbH</subfield>
+<subfield code="e">Sonstige</subfield>
+<subfield code="4">oth</subfield>
+</datafield>
+<datafield tag="850" ind1=" " ind2=" ">
+<subfield code="a">DE-101a</subfield>
+</datafield>
+<datafield tag="856" ind1="4" ind2="2">
+<subfield code="m">X:MVB</subfield>
+<subfield code="q">text/html</subfield>
+<subfield code="u">
+http://deposit.dnb.de/cgi-bin/dokserv?id=5156500&prov=M&dok_var=1&dok_ext=htm
+</subfield>
+<subfield code="3">Inhaltstext</subfield>
+</datafield>
+<datafield tag="856" ind1="4" ind2="2">
+<subfield code="m">B:DE-101</subfield>
+<subfield code="q">application/pdf</subfield>
+<subfield code="u">http://d-nb.info/1067306234/04</subfield>
+<subfield code="3">Inhaltsverzeichnis</subfield>
+</datafield>
+<datafield tag="925" ind1="r" ind2=" ">
+<subfield code="a">ra</subfield>
+</datafield>
+<datafield tag="926" ind1="1" ind2=" ">
+<subfield code="a">VFV</subfield>
+<subfield code="o">93</subfield>
+<subfield code="q">WGSneuMapping</subfield>
+<subfield code="v">1.0</subfield>
+<subfield code="x">Ratgeber: Familie und Partnerschaft</subfield>
+</datafield>
+</record>
+</recordData>
+<recordPosition>1</recordPosition>
+</record>
+</records>
+<nextRecordPosition>2</nextRecordPosition>
+<echoedSearchRetrieveRequest>
+<version>1.1</version>
+<query>isbn=9783944020020</query>
+<xQuery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+<recordSchema>MARC21-xml</recordSchema>
+</echoedSearchRetrieveRequest>
+<extraResponseData>
+<accountOf xmlns="">Arbeitsgemeinschaft für Verhaltensmodifikation</accountOf>
+</extraResponseData>
+</searchRetrieveResponse>
             """.trimIndent(), Normalizer.Form.NFC
             )
         )

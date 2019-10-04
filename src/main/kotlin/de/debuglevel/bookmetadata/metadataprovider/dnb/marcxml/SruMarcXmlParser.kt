@@ -12,6 +12,8 @@ import javax.xml.xpath.XPathFactory
 
 /**
  * Parses MARCXML records embedded in the DNB SRU XML data
+ * Original MARC21 reference: http://www.loc.gov/marc/bibliographic/
+ * MARC21 reference for DNB: https://www.dnb.de/DE/Professionell/Metadatendienste/Exportformate/MARC21/marc21_node.html
  */
 class SruMarcXmlParser(xmlData: String) {
     private val logger = KotlinLogging.logger {}
@@ -29,10 +31,36 @@ class SruMarcXmlParser(xmlData: String) {
         get() = getValue("245", "a")
     val author: String?
         get() {
+            logger.debug { "Getting author..." }
+
             // there are various places, in which the authors are available in various formats
-            return getValue("100", "a")
-                ?: getValue("700", "a")
-                ?: NameUtils.convertToLastnameFirst(getValue("245", "c"))
+
+            // "MAIN ENTRY--PERSONAL NAME (Haupteintragung - Personenname)"
+            // format: "Freud, Sigmund"
+            val field100a = getValue("100", "a")
+            // "ADDED ENTRY--PERSONAL NAME (Nebeneintragung - Personenname)"
+            // format: "Freud, Sigmund"
+            // is additional information (if existent) to field 100
+            val field700a = getValues("700", "a")
+            // "TITLE STATEMENT (Titelangabe); Statement of responsibility, etc. (Verfasserangabe etc.)"
+            // some other aggregated information which may contain the author if not present in 100a and 700a
+            // format: "Sigmund Freud, Anna Freud"
+            val field245c = getValue("245", "c")
+
+            //
+            val personalEntries = listOf(field100a)
+                .plus(field700a)
+                .joinToString("; ")
+
+            val author = if (personalEntries.isNotEmpty()) {
+                personalEntries
+            } else {
+                // may contain authors, but in "Sigmund Freud, Anna Freud" format; has to be converted therefore
+                NameUtils.convertToLastnameFirst(field245c)
+            }
+
+            logger.debug { "Got author: $author" }
+            return author
         }
     val publisher: String?
         get() = getValue("264", "b")
@@ -73,7 +101,18 @@ class SruMarcXmlParser(xmlData: String) {
 
     private fun getValue(datafieldTag: String, subfieldCode: String): String? {
         logger.debug { "Getting MARC21 value for datafield tag '$datafieldTag', subfield code '$subfieldCode'..." }
-        return getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='$datafieldTag']//subfield[@code='$subfieldCode']/text()")
+        val value =
+            getXPathValue("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='$datafieldTag']//subfield[@code='$subfieldCode']/text()")
+        logger.debug { "Got MARC21 value for datafield tag '$datafieldTag', subfield code '$subfieldCode': '$value'" }
+        return value
+    }
+
+    private fun getValues(datafieldTag: String, subfieldCode: String): Set<String?> {
+        logger.debug { "Getting MARC21 values for datafield tag '$datafieldTag', subfield code '$subfieldCode'..." }
+        val values =
+            getXPathValues("/searchRetrieveResponse/records/record[$record]/recordData/record/datafield[@tag='$datafieldTag']//subfield[@code='$subfieldCode']/text()")
+        logger.debug { "Got MARC21 values for datafield tag '$datafieldTag', subfield code '$subfieldCode': '$values'" }
+        return values
     }
 
     private fun getXPathValue(xpathString: String): String? {
@@ -89,7 +128,28 @@ class SruMarcXmlParser(xmlData: String) {
 
         val content = nodes.item(0)?.textContent
 
-        logger.trace("Got XPath value '$content'")
+        logger.trace("Got XPath value: '$content'")
+
+        return content
+    }
+
+    private fun getXPathValues(xpathString: String): Set<String?> {
+        logger.debug("Getting XPath values for '$xpathString'...")
+
+        // XPath stuff is not thread-safe; creating new instances therefore
+        val xpathFactory = XPathFactory.newInstance()
+        val xpath = xpathFactory.newXPath()
+
+        val xpathExpression = xpath.compile(xpathString)
+        val result = xpathExpression.evaluate(xmlDocument, XPathConstants.NODESET)
+        val nodes = result as NodeList
+
+        val content = mutableSetOf<String?>()
+        for (nodeIndex in 0..(nodes.length - 1)) {
+            content.add(nodes.item(nodeIndex)?.textContent)
+        }
+
+        logger.trace("Got XPath values: '$content'")
 
         return content
     }
