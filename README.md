@@ -1,5 +1,3 @@
-**This README is out of date for the current commit, as this microservice is migrating to Micronaut! Switch to a tagged commit (i.e. 0.0.2) to get a stable and well documented version**
-
 <!--- some badges to display on the GitHub page -->
 ![Travis (.org)](https://img.shields.io/travis/debuglevel/bookmetadata-microservice?label=Travis%20build)
 ![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/debuglevel/bookmetadata-microservice?label=GitLab%20build)
